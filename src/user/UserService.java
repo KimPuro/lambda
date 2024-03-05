@@ -1,19 +1,17 @@
 package user;
 
+import enums.Messenger;
 
 import java.util.List;
 import java.util.Map;
 
 public interface UserService {
     String addUsers();
-    String join(User user);
-    String login(User user);
-    User findUserByID(String username);
-    void updatePassword(User user);
-    String deleteUser(String username);
-    List<User> getUserList();
-    List<User> findUsersByName(String name);
+    Messenger login(User user);
+    Messenger updatePassword(User user);
+    List<?> findUsersByName(String name);
     Map<String, ?> findUsersByNameFromMap(String name);
-    List<User> findUserByJob(String job);
-    int countUsers();
+    List<?> findUsersByJob(String job);
+    Map<String, ?> findUsersByJobFromMap(String job);
+    Map<String, ?> getUserMap();
 }

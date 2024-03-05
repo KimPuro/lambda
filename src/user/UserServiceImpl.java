@@ -1,70 +1,74 @@
 package user;
 
-
-import common.UtilService;
+import common.AbstractService;
 import common.UtilServiceImpl;
+import enums.Messenger;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
-public class UserServiceImpl implements UserService{
-    private Map<String, User> users;
-    UserRepository userRepository;
+public class UserServiceImpl extends AbstractService<User> implements UserService {
+
+    private static UserServiceImpl instance = new UserServiceImpl();
+    Map<String, User> users;
+
+    private UserServiceImpl(){
+        this.users = new HashMap<>();
+    }
+    public static UserServiceImpl getInstance(){return instance;}
     @Override
-    public String addUsers() {
-        Map<String, User> map = new HashMap<>();
-        UtilService util = UtilServiceImpl.getInstance();
-
-        for(int i=0; i<5; i++){
-            String username = util.createRandomName();
-            map.put(username, User.builder()
-                    .username(username)
-                    .pw("1")
-                    .name(util.createRandomName())
-                    .build());
-        }
-        users = map;
-        return users.size()+" 개 더미값 추가";
+    public Messenger save(User user) {
+        users.put(user.getUsername(), user);
+        return Messenger.SUCCESS;
     }
 
     @Override
-    public String join(User user) {
-        return null;
+    public List<User> findAll() {
+        return  new ArrayList<>(users.values());
     }
 
     @Override
-    public String login(User user) {
-        return null;
+    public Messenger login(User user) {
+        return users.getOrDefault(user.getUsername(), User.builder().password("").build())
+                .getPassword()
+                .equals(user.getPassword()) ?  Messenger.LOGGED_IN : Messenger.FAIL;
     }
 
     @Override
-    public User findUserByID(String username) {
-        return null;
+    public Optional<User> findById(Long id) {
+        return Optional.of(users
+                .values()
+                .stream()
+                .filter(i -> i.getId().equals(id))
+                .collect(Collectors.toList()).get(0));
     }
 
     @Override
-    public void updatePassword(User user) {
+    public Messenger updatePassword(User user) {
+        users.get(user.getUsername()).setPassword(user.getPassword());
 
+        return Messenger.PASSWORD_CHANGED;
     }
 
     @Override
-    public String deleteUser(String username) {
-        return null;
+    public Messenger delete(User user) {
+        users.remove(user.getUsername());
+        return Messenger.DElETE_SUCCESS;
     }
 
     @Override
-    public List<User> getUserList() {
-        return null;
+    public Boolean existsById(Long id) {
+        return users.containsKey(id);
     }
 
+
+
     @Override
-    public List<User> findUsersByName(String name) {
+    public List<?> findUsersByName(String name) {
         return users
                 .values()
                 .stream()
-                .filter(user -> user.getName().equals(name))
+                .filter(i -> i.getName().equals(name))
                 .collect(Collectors.toList());
     }
 
@@ -74,16 +78,56 @@ public class UserServiceImpl implements UserService{
                 .entrySet()
                 .stream()
                 .filter(i -> i.getKey().equals(name))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                ;
     }
 
     @Override
-    public List<User> findUserByJob(String job) {
-        return null;
+    public List<?> findUsersByJob(String job) {
+            return users
+                .values()
+                .stream()
+                .filter(i -> i.getJob().equals(job))
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public Map<String, ?> findUsersByJobFromMap(String job) {
+        return users
+                .entrySet()
+                .stream()
+                .filter(i -> i.getKey().equals(job))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                ;
     }
 
     @Override
-    public int countUsers() {
-        return 0;
+    public String count() {
+        return users.size()+"";
+    }
+
+    @Override
+    public Optional<User> getOne(String id) {
+        return Optional.of(users.get(id));
+    }
+
+    @Override
+    public Map<String, ?> getUserMap() {
+        return users;
+    }
+
+    @Override
+    public String addUsers() {
+        IntStream.range(0,5)
+                .mapToObj(i -> UtilServiceImpl.getInstance().createRandomUsername())
+                .forEach(i -> users.put(i, User.builder()
+                        .username(i)
+                        .password("1")
+                        .name(UtilServiceImpl.getInstance().createRandomName())
+                        .job(UtilServiceImpl.getInstance().createRandomJob())
+                        .build()));
+        return users.size()+"개 더미값 추가";
+
     }
 }

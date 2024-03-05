@@ -1,5 +1,7 @@
 package account;
 
+import enums.Messenger;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,7 +12,7 @@ public class AccountController {
         this.accountService = AccountServiceImpl.getInstance();
     }
 
-    public String createAccount(Scanner sc) {
+    public Messenger createAccount(Scanner sc) {
         return accountService.createAccount(Account.builder()
                 .id(sc.nextLong())
                 .accountNumber(sc.next())
@@ -20,6 +22,7 @@ public class AccountController {
                 .build()
 
         );
+
     }
 
     public String deposit(Scanner sc) {

@@ -24,10 +24,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Map<String, User> addUsers() {
         for (int i = 0; i < 5; i++) {
-            String username = util.createRandomLowerCaseUsername();
+            String username = util.createRandomUsername();
             users.put(username, User.builder()
                     .username(username)
-                    .pw("1")
+                    .password("1")
                     .name(util.createRandomName())
                     .build());
         }
@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
         String username = sc.next();
         users.put(username, User.builder()
                 .username(username)
-                .pw("1")
+                .password("1")
                 .name(util.createRandomName())
                 .build());
         return users;
@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthService {
     public void loginUser(Scanner sc) {
         String userInput = sc.next();
         String pwInput = sc.next();
-        if (users.containsKey(userInput) && users.get(userInput).getPw().equals(pwInput)) {
+        if (users.containsKey(userInput) && users.get(userInput).getPassword().equals(pwInput)) {
             System.out.println(users.get(userInput).getName() + "님 환영합니다.");
         } else {
             System.out.println("ID 또는 비밀번호가 틀렸습니다.");
@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
         String username = sc.next();
         String newPw = sc.next();
         if (users.containsKey(username)) {
-            users.get(username).setPw(newPw);
+            users.get(username).setPassword(newPw);
             System.out.println("비밀번호가 변경되었습니다.");
         } else {
             System.out.println("해당 유저가 존재하지 않습니다.");

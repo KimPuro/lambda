@@ -1,6 +1,7 @@
 package account;
 
 
+import enums.Messenger;
 import lombok.Getter;
 import user.User;
 
@@ -17,10 +18,14 @@ public class AccountServiceImpl implements AccountService {
     private AccountServiceImpl(){
         this.accounts = new ArrayList<>();
     }
+    public Messenger save(User user){
+        users.put(user.getUsername(), user);
+        return Messenger.SUCCESS;
+    }
 
 
     @Override
-    public String createAccount(Account account) {
+    public Messenger createAccount(Account account) {
         return null;
     }
 

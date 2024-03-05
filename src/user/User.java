@@ -1,80 +1,52 @@
 package user;
 import lombok.*;
 
-@NoArgsConstructor
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"id"})
 public class User {
-    private int id;
+    private Long id;
     private String username;
-    private String pw;
+    private String password;
     private String name;
-    private String personalId;
+    private String ssn;
     private String phoneNumber;
     private String address;
     private String job;
-
-    public User(String username, String pw, String name, String personalId, String phoneNumber, String address, String job, double weight, double height) {
-        this.username = username;
-        this.pw = pw;
-        this.name = name;
-        this.personalId = personalId;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.job = job;
-        this.weight = weight;
-        this.height = height;
-    }
-    public void setPw(String pw) {
-        this.pw = pw;
-    }
-
-    private double weight;
     private double height;
+    private double weight;
 
-    @Builder
-    public User(int id, String username, String pw, String name, String personalId, String phoneNumber, String address, String job, double weight, double height) {
-        this.id = id;
+    @Builder(builderMethodName = "builder")
+    public User(String username, String password,
+                String name, String ssn, String phoneNumber,
+                String address, String job,
+                double height, double weight) {
         this.username = username;
-        this.pw = pw;
+        this.password = password;
         this.name = name;
-        this.personalId = personalId;
+        this.ssn = ssn;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.job = job;
-        this.weight = weight;
         this.height = height;
+        this.weight = weight;
     }
 
-    public User(String username) {
-        this.username = username;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public int returnRandomHeight() {
-        return (int) (Math.random() * 50) + 150;
-    }
-
-    public int returnRandomWeight() {
-        return (int) (Math.random() * 100) + 30;
-    }
-
-
-
-    public void setPwAgain(String pwAgain) {
-        if (pw.equals(pwAgain)) {
-            this.pw = pw;
-        } else {
-            System.out.println("비밀번호가 일치하지 않습니다.");
-        }
-    }
-
-
-
-    public void createMeter(double height) {
-        this.height = height/100;
+    @Override
+    public String toString() {
+        return "User{\n" +
+                "username='" + username + '\n' +
+                ", password='" + password + '\n' +
+                ", name='" + name + '\n' +
+                ", ssn='" + ssn + '\n' +
+                ", phoneNumber='" + phoneNumber + '\n' +
+                ", address='" + address + '\n' +
+                ", job='" + job + '\n' +
+                '}';
     }
 }
-
-
-
-

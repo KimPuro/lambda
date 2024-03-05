@@ -1,22 +1,16 @@
 package common;
 
 public interface UtilService {
-    public
-    int createRandomInt(int start, int end);
-    double createRandomDouble(int start, int end);
+    int createRandomInteger(int start, int gapBetweenStartAndEnd);
+    double createRandomDouble(int start, int gapBetweenStartAndEnd);
+
     String createRandomName();
-    String createRandomContent();
+
     String createRandomTitle();
 
-    String createRandomLowerCaseUsername();
-    String createRandomEnglishName();
+    String createRandomContent();
     String createRandomCompany();
+    String createRandomJob();
+    String createRandomUsername();
 
-    interface AccountService {
-        void createAccount(String accountNumber, String accountHolder);
-        void deposit(String accountNumber, double amount);
-        void withdraw(String accountNumber, double amount);
-        double getBalance(String accountNumber);
-        void cancelAccount(String accountNumber);
-    }
 }

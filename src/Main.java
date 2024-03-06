@@ -1,10 +1,12 @@
 import account.AccountView;
 import board.BoardView;
+import crawler.CrawlerView;
 import user.UserView;
 
+import java.io.IOException;
 import java.util.Scanner;
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
 
         while (true){
@@ -12,14 +14,14 @@ public class Main {
                     "1-User " +
                     "2-Board " +
                     "3-Account " +
-                    "4-Product " +
+                    "4-Crawler " +
                     "===");
             switch (sc.next()){
                 case "0":  return;
                 case "1": UserView.main(sc);break;
                 case "2": BoardView.main(); break;
                 case "3": AccountView.main(sc); break;
-                case "4":  break;
+                case "4": CrawlerView.main(sc); break;
             }
         }
     }

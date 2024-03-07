@@ -1,25 +1,26 @@
 package user;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class UserView {
-    public static void main(Scanner scanner) {
+    public static void main(Scanner scanner) throws SQLException {
         UserController controller = new UserController();
-        UserRepository repository = new UserRepository();
         String msg = controller.addUsers();
         System.out.println(" addUsers 결과 : "+msg);
         while(true){
             System.out.println("[사용자메뉴] 0-종료\n " +
                     "1-회원가입  " +
                     "2-로그인  " +
-                    "3-ID검색  " +
+                    "3-repo 테스트  " +
                     "4-비번변경  " +
                     "5-탈퇴  " +
                     "6-회원목록  " +
                     "7-이름검색  " +
                     "8-직업검색  " +
-                    "9-회원수");
+                    "9-findUsers");
             switch (scanner.next()){
                 case "0":
                     System.out.println("종료");return;
@@ -34,8 +35,9 @@ public class UserView {
                     System.out.println("로그인 결과 : "+msg);
                     break;
                 case "3":
-                    System.out.println("3-ID 검색");
-                    repository.test();
+                    System.out.println("3-repo 테스트");
+                    controller.test();
+
                     break;
                 case "4":
                     System.out.println("4-비번변경");
@@ -47,8 +49,8 @@ public class UserView {
                     break;
                 case "6":
                     System.out.println("6-회원목록");
-                    Map<String, ?> users = controller.getUserMap();
-                    users.forEach((k,v)->{
+                    Map<String, ?> userList = controller.getUserMap();
+                    userList.forEach((k,v)->{
                         System.out.printf("아이디: %s, 회원정보: %s", k, v);
                     });
                     break;
@@ -65,9 +67,9 @@ public class UserView {
                     });
                     break;
                 case "9":
-                    System.out.println("9-회원수");
-                    String numberOfUsers = controller.count();
-                    System.out.println("회원수 "+numberOfUsers);
+                    System.out.println("9-findUsers");
+                    List<User> users = controller.findUsers();
+
                     break;
 
 

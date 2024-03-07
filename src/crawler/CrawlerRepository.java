@@ -43,11 +43,11 @@ public class CrawlerRepository extends AbstractRepository {
         while (titleIt.hasNext() && artistIt.hasNext() && rankIt.hasNext()) {
             String title = titleIt.next().text();
             String artist = artistIt.next().text();
-            String rank = rankIt.next().text();
+            String musicRank = rankIt.next().text();
 
             Map<String, String> musicInfoMap = new LinkedHashMap<>();
             musicInfoMap.put("가수", artist);
-            musicInfoMap.put("순위", rank);
+            musicInfoMap.put("순위", musicRank);
 
             map.put(title, musicInfoMap);
 

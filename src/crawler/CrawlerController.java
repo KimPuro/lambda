@@ -23,4 +23,5 @@ public class CrawlerController {
 
         return service.findMelonChart(paramMap);
     }
+
 }

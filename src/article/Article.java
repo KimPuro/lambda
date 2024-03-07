@@ -1,18 +1,18 @@
-package board;
+package article;
 
 import lombok.*;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString
-@NoArgsConstructor
+@ToString(exclude = {"id"})
 
-public class Board {
+public class Article {
     private String title;
     private String content;
     private String writer;
-    private int id;
+    private Long id;
     @Builder
-    public Board(String title, String content, String writer) {
+    public Article(String title, String content, String writer) {
         this.title = title;
         this.content = content;
         this.writer = writer;

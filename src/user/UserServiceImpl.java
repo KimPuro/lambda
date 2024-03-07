@@ -3,19 +3,24 @@ package user;
 import common.AbstractService;
 import common.UtilServiceImpl;
 import enums.Messenger;
+import lombok.Getter;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.*;
 
 public class UserServiceImpl extends AbstractService<User> implements UserService {
 
+    @Getter
     private static UserServiceImpl instance = new UserServiceImpl();
+    UserRepository repo;
     Map<String, User> users;
 
     private UserServiceImpl(){
         this.users = new HashMap<>();
+        this.repo = UserRepository.getInstance();
     }
-    public static UserServiceImpl getInstance(){return instance;}
+
     @Override
     public Messenger save(User user) {
         users.put(user.getUsername(), user);
@@ -115,6 +120,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     @Override
     public Map<String, ?> getUserMap() {
         return users;
+    }
+
+    @Override
+    public String test() {
+        return repo.test();
+    }
+
+    @Override
+    public List<User> findUsers() throws SQLException {
+        return (List<User>) repo.findUsers();
     }
 
     @Override

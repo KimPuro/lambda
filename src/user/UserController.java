@@ -2,6 +2,7 @@ package user;
 
 import enums.Messenger;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -92,4 +93,11 @@ public class UserController {
         return service.getUserMap();
     }
 
+    public List<User> findUsers() throws SQLException {
+        return service.findUsers();
+
+    }
+    public String test(){
+        return service.test();
+    }
 }

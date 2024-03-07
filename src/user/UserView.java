@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class UserView {
     public static void main(Scanner scanner) {
         UserController controller = new UserController();
+        UserRepository repository = new UserRepository();
         String msg = controller.addUsers();
         System.out.println(" addUsers 결과 : "+msg);
         while(true){
@@ -34,7 +35,7 @@ public class UserView {
                     break;
                 case "3":
                     System.out.println("3-ID 검색");
-                    System.out.println(controller.getOne(scanner));
+                    repository.test();
                     break;
                 case "4":
                     System.out.println("4-비번변경");

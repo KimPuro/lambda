@@ -3,13 +3,13 @@ package crawler;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.HashMap;
-import org.jsoup.nodes.Element;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
+
 
 public class CrawlerView {
     public static void main(Scanner sc) throws IOException {
         CrawlerController controller = new CrawlerController();
+        DatabaseHelper databaseHelper = new DatabaseHelper();
         while(true){
             System.out.println("[사용자메뉴] 0-종료\n " +
                     "1-벅스  " +
@@ -26,13 +26,17 @@ public class CrawlerView {
                     System.out.println("종료");return;
                 case "1":
                     System.out.println("1-벅스 뮤직");
-                    Map<String, ?> bugsMap = controller.findBugsMusic(sc);
-                    System.out.println(bugsMap);
+                    LinkedHashMap<String, Map<String, String>> bugsData = (LinkedHashMap<String, Map<String, String>>) CrawlerRepository.getInstance().bugsSave(null);
+                    databaseHelper.insertBugsData(bugsData);
+                    System.out.println(bugsData);
+
                     break;
                 case "2":
                     System.out.println("2-멜론");
-                    Map<String, ?> melonMap = controller.findMelonMusic(sc);
-                    System.out.println(melonMap);
+
+                    LinkedHashMap<String, Map<String, String>> melonData = (LinkedHashMap<String, Map<String, String>>) CrawlerRepository.getInstance().melonSave(null);
+                    databaseHelper.insertMelonData(melonData);
+                    System.out.println(melonData);
                     break;
                 case "3":
                     System.out.println("3-ID 검색");

@@ -25,7 +25,7 @@ public class Main {
                 case "2": BoardView.main(); break;
                 case "3": AccountView.main(sc); break;
                 case "4": CrawlerView.main(sc); break;
-                case "5": ArticleView.main(); break;
+                case "5": ArticleView.main(sc); break;
             }
         }
     }

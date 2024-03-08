@@ -3,35 +3,56 @@ package article;
 import lombok.Getter;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleRepository {
-    Connection conn;
+    @Getter
+    private static ArticleRepository instance;
+
+    static {
+        try {
+            instance = new ArticleRepository();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            instance = new ArticleRepository();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Connection connection;
+
     private ArticleRepository() throws SQLException {
-        this.conn = DriverManager.getConnection(
+        connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/linusdb",
                 "linus", "password");
     }
-    public List<?> findArticles() throws SQLException {
-        PreparedStatement pstmt = conn.prepareStatement("select * from Articles");
-        ResultSet resultSet = pstmt.executeQuery();
 
-        if(resultSet.next()){
-            do{
-                System.out.printf("ID: %d\t Title: %s\t Content: %s\t Writer: %s\n",
-                        resultSet.getLong("id"),
-                        resultSet.getString("title"),
-                        resultSet.getString("content"),
-                        resultSet.getString("writer"));
-            }while(resultSet.next());
-        }else{
+    public List findAll() throws SQLException {
+        List<Article> ls = new ArrayList<>();
+        String sql = "select * from articles";
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        ResultSet resultSet = pstmt.executeQuery();
+        if (resultSet.next()) {
+            do {
+                ls.add(Article.builder()
+                                .id(resultSet.getLong("id"))
+                                .title(resultSet.getString("title"))
+                                .content(resultSet.getString("content"))
+                                .writer(resultSet.getString("writer"))
+                                .registerDate(resultSet.getString("register_date"))
+                                .build());
+            } while (resultSet.next());
+        } else {
             System.out.println("조회결과가 없습니다.");
         }
-
         resultSet.close();
         pstmt.close();
-        conn.close();
-        return null;
-    }
+        connection.close();
+            return ls;
 
-}
+        }
+    }

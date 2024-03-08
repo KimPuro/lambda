@@ -1,26 +1,26 @@
 package user;
 
 import common.AbstractService;
-import common.UtilServiceImpl;
 import enums.Messenger;
-import lombok.Getter;
+import common.UtilServiceImpl;
 
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class UserServiceImpl extends AbstractService<User> implements UserService {
 
-    @Getter
     private static UserServiceImpl instance = new UserServiceImpl();
-    UserRepository repo;
     Map<String, User> users;
+    UserRepository repo;
 
     private UserServiceImpl(){
+
         this.users = new HashMap<>();
         this.repo = UserRepository.getInstance();
     }
-
+    public static UserServiceImpl getInstance(){return instance;}
     @Override
     public Messenger save(User user) {
         users.put(user.getUsername(), user);
@@ -33,10 +33,11 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override
-    public Messenger login(User user) {
+    public String login(User user) {
         return users.getOrDefault(user.getUsername(), User.builder().password("").build())
                 .getPassword()
-                .equals(user.getPassword()) ?  Messenger.LOGGED_IN : Messenger.FAIL;
+                .equals(user.getPassword()) ?
+                "로그인 성공" : "로그인 실패";
     }
 
     @Override
@@ -49,16 +50,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override
-    public Messenger updatePassword(User user) {
+    public String updatePassword(User user) {
         users.get(user.getUsername()).setPassword(user.getPassword());
 
-        return Messenger.PASSWORD_CHANGED;
+        return "비번 변경 성공";
     }
 
     @Override
-    public Messenger delete(User user) {
+    public String delete(User user) {
         users.remove(user.getUsername());
-        return Messenger.DElETE_SUCCESS;
+        return "회원삭제";
     }
 
     @Override
@@ -79,6 +80,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public Map<String, ?> findUsersByNameFromMap(String name) {
+
         return users
                 .entrySet()
                 .stream()
@@ -89,13 +91,16 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
 
     @Override
     public List<?> findUsersByJob(String job) {
-            return users
+        System.out.println("findUsersByJob 파라미터 : "+job);
+        users
+                .values()
+                .stream().forEach(i->System.out.println("직업 :"+i.getJob()));
+        return users
                 .values()
                 .stream()
                 .filter(i -> i.getJob().equals(job))
                 .collect(Collectors.toList());
     }
-
 
     @Override
     public Map<String, ?> findUsersByJobFromMap(String job) {
@@ -128,8 +133,18 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override
-    public List<User> findUsers() throws SQLException {
-        return (List<User>) repo.findUsers();
+    public List<?> findUsers() throws SQLException {
+        return repo.findUsers();
+    }
+
+    @Override
+    public String createTable() {
+        return repo.createTable();
+    }
+
+    @Override
+    public String dropTable() throws SQLException {
+        return repo.dropTable();
     }
 
     @Override

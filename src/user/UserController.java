@@ -1,7 +1,5 @@
 package user;
 
-import enums.Messenger;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +21,7 @@ public class UserController {
     public String save(Scanner scanner) {
         service.save(User.builder()
                 .username(scanner.next())
-                .ssn(scanner.next())
-                .address(scanner.next())
-                .phoneNumber(scanner.next())
+                .phone(scanner.next())
                 .password(scanner.next())
                 .build());
         return "회원가입 성공";
@@ -35,7 +31,7 @@ public class UserController {
         return service.findAll();
     }
 
-    public Messenger login(Scanner scanner) {
+    public String login(Scanner scanner) {
         return service.login(User.builder()
                 .username(scanner.next())
                 .password(scanner.next())
@@ -46,12 +42,10 @@ public class UserController {
         return service.findById(Long.parseLong(scanner.next()));
     }
 
-    public Messenger updatePassword(Scanner scanner) {
+    public String updatePassword(Scanner scanner) {
         return service.updatePassword(User.builder()
                 .username(scanner.next())
-                .ssn(scanner.next())
-                .address(scanner.next())
-                .phoneNumber(scanner.next())
+                .phone(scanner.next())
                 .password(scanner.next())
                 .build());
     }
@@ -93,11 +87,18 @@ public class UserController {
         return service.getUserMap();
     }
 
-    public List<User> findUsers() throws SQLException {
-        return service.findUsers();
 
-    }
-    public String test(){
+    public String test() {
         return service.test();
+    }
+
+    public List<?> findUsers() throws SQLException {
+        return service.findUsers();
+    }
+    public String createTable() {
+        return service.createTable();
+    }
+    public String dropTable() throws SQLException {
+        return service.dropTable();
     }
 }

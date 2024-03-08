@@ -1,20 +1,23 @@
 package user;
 
-import enums.Messenger;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 public interface UserService {
     String addUsers();
-    Messenger login(User user);
-    Messenger updatePassword(User user);
+    String login(User user);
+    String updatePassword(User user);
     List<?> findUsersByName(String name);
     Map<String, ?> findUsersByNameFromMap(String name);
     List<?> findUsersByJob(String job);
     Map<String, ?> findUsersByJobFromMap(String job);
     Map<String, ?> getUserMap();
+
     String test();
-    List<User> findUsers() throws SQLException;
+
+    List<?> findUsers() throws SQLException;
+
+    String createTable();
+    String dropTable() throws SQLException;
 }

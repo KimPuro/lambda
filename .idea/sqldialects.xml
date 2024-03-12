@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/src/com/linus/api/article/ArticleRepository.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/com/linus/api/sql/soccer-test.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/com/linus/api/user/UserRepository.java" dialect="GenericSQL" />
   </component>
 </project>

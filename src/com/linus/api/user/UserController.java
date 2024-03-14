@@ -1,5 +1,7 @@
 package com.linus.api.user;
 
+import lombok.Getter;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -7,12 +9,13 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class UserController {
-
-    UserServiceImpl service;
-
-    public UserController() {
+    @Getter
+    private static final UserController instance = new UserController();
+    private UserController(){
         this.service = UserServiceImpl.getInstance();
     }
+
+    UserServiceImpl service;
 
     public String addUsers() {
         return service.addUsers();
